@@ -4,8 +4,9 @@ import { saveAs } from "file-saver";
 import { frontPathFor, backPathFor } from "../utils/assets";
 
 export default function Card({ personality, tracks = [], overrides = {} }) {
-  // reference the card for PNG export
-  const cardRef = useRef();
+  // reference each card face for PNG export
+  const frontRef = useRef();
+  const backRef = useRef();
   const [frontUrl, setFrontUrl] = useState(null);
   const [backUrl, setBackUrl] = useState(null);
   const [showBack, setShowBack] = useState(false);
@@ -39,9 +40,10 @@ export default function Card({ personality, tracks = [], overrides = {} }) {
   }, [personality, overrides]);
 
   const download = async () => {
-    if (!cardRef.current) return;
+    const node = showBack ? backRef.current : frontRef.current;
+    if (!node) return;
     try {
-      const dataUrl = await toPng(cardRef.current, { cacheBust: true });
+      const dataUrl = await toPng(node, { cacheBust: true });
       const suffix = showBack ? "back" : "front";
       saveAs(
         dataUrl,
@@ -60,12 +62,12 @@ export default function Card({ personality, tracks = [], overrides = {} }) {
         style={{ width: 420, height: cardHeight || "auto", margin: "0 auto" }}
       >
         <div
-          ref={cardRef}
           className={`flip-card ${showBack ? "is-flipped" : ""}`}
           style={{ width: "100%", height: "100%" }}
         >
           <div className="flip-card-face">
             <img
+              ref={frontRef}
               src={frontUrl}
               alt="front"
               style={{ width: "100%", display: "block" }}
@@ -77,6 +79,7 @@ export default function Card({ personality, tracks = [], overrides = {} }) {
           </div>
           <div className="flip-card-face flip-card-back">
             <img
+              ref={backRef}
               src={backUrl}
               alt="back"
               style={{ width: "100%", display: "block" }}
