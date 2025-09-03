@@ -35,19 +35,26 @@ export default function Card({ personality, artists = [], features = {}, overrid
           : URL.createObjectURL(overrides.back)
       );
     } else {
-      setBackUrl(backPathFor(personality));
+      setBackUrl(backPathFor());
     }
   }, [personality, overrides]);
 
   const download = async () => {
     if (!cardRef.current) return;
+    const wasBack = showBack;
     try {
-      // export only the card image
+      setShowBack(true);
+      await new Promise((r) => setTimeout(r, 100));
       const dataUrl = await toPng(cardRef.current, { cacheBust: true });
-      saveAs(dataUrl, `${(personality || "card").replace(/\s+/g, "-")}.png`);
+      saveAs(
+        dataUrl,
+        `${(personality || "card").replace(/\s+/g, "-")}-back.png`
+      );
     } catch (e) {
       console.error(e);
       alert("Export failed");
+    } finally {
+      setShowBack(wasBack);
     }
   };
 
