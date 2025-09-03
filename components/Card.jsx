@@ -4,12 +4,10 @@ import { saveAs } from "file-saver";
 import { frontPathFor, backPathFor } from "../utils/assets";
 
 export default function Card({ personality, tracks = [], overrides = {} }) {
-  // reference the card for PNG export
   const cardRef = useRef();
   const [frontUrl, setFrontUrl] = useState(null);
   const [backUrl, setBackUrl] = useState(null);
   const [showBack, setShowBack] = useState(false);
-  const [cardHeight, setCardHeight] = useState(0);
 
   useEffect(() => {
     const key = personality || "";
@@ -39,9 +37,10 @@ export default function Card({ personality, tracks = [], overrides = {} }) {
   }, [personality, overrides]);
 
   const download = async () => {
-    if (!cardRef.current) return;
+    const node = cardRef.current;
+    if (!node) return;
     try {
-      const dataUrl = await toPng(cardRef.current, { cacheBust: true });
+      const dataUrl = await toPng(node, { cacheBust: true });
       const suffix = showBack ? "back" : "front";
       saveAs(
         dataUrl,
@@ -56,47 +55,32 @@ export default function Card({ personality, tracks = [], overrides = {} }) {
   return (
     <div style={{ textAlign: "center" }}>
       <div
-        className="flip-scene"
-        style={{ width: 420, height: cardHeight || "auto", margin: "0 auto" }}
+        ref={cardRef}
+        style={{ width: 420, margin: "0 auto", borderRadius: 12, overflow: "hidden" }}
       >
-        <div
-          ref={cardRef}
-          className={`flip-card ${showBack ? "is-flipped" : ""}`}
-          style={{ width: "100%", height: "100%" }}
-        >
-          <div className="flip-card-face">
-            <img
-              src={frontUrl}
-              alt="front"
-              style={{ width: "100%", display: "block" }}
-              onLoad={(e) => setCardHeight(e.currentTarget.offsetHeight)}
-              onError={(e) => {
-                e.currentTarget.src = frontPathFor();
-              }}
-            />
-          </div>
-          <div className="flip-card-face flip-card-back">
-            <img
-              src={backUrl}
-              alt="back"
-              style={{ width: "100%", display: "block" }}
-              onError={(e) => {
-                e.currentTarget.src = backPathFor();
-              }}
-            />
-          </div>
-        </div>
+        <img
+          src={showBack ? backUrl : frontUrl}
+          alt={showBack ? "back" : "front"}
+          style={{ width: "100%", display: "block" }}
+          onError={(e) => {
+            e.currentTarget.src = showBack
+              ? backPathFor()
+              : frontPathFor(personality);
+          }}
+        />
       </div>
 
       <div style={{ width: 420, margin: "12px auto 0", textAlign: "center" }}>
         <h3 style={{ margin: 0 }}>{personality}</h3>
+        <h4 style={{ marginTop: 8, marginBottom: 0 }}>Deine Top-Songs des Monats</h4>
         <ol
           style={{
             marginTop: 8,
             color: "#fff",
             fontSize: 14,
-            paddingLeft: 20,
-            textAlign: "left",
+            paddingLeft: 0,
+            listStylePosition: "inside",
+            textAlign: "center",
           }}
         >
           {tracks?.slice(0, 5).map((t, i) => (
