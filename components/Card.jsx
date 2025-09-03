@@ -77,7 +77,7 @@ export default function Card({ personality, artists = [], features = {}, overrid
               style={{ width: "100%", display: "block" }}
               onLoad={(e) => setCardHeight(e.currentTarget.offsetHeight)}
               onError={(e) => {
-                e.currentTarget.src = "/cards/fronts/default-front.png";
+                e.currentTarget.src = frontPathFor();
               }}
             />
           </div>
@@ -87,7 +87,7 @@ export default function Card({ personality, artists = [], features = {}, overrid
               alt="back"
               style={{ width: "100%", display: "block" }}
               onError={(e) => {
-                e.currentTarget.src = "/cards/backs/back.png";
+                e.currentTarget.src = backPathFor();
               }}
             />
             <div
