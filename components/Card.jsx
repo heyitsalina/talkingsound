@@ -92,6 +92,7 @@ export default function Card({ personality, tracks = [], overrides = {} }) {
                 display: "block",
                 borderRadius: 12,
                 backfaceVisibility: "hidden",
+                transform: "rotateY(180deg)",
               }}
               onError={(e) => {
                 e.currentTarget.src = backPathFor();
@@ -113,9 +114,14 @@ export default function Card({ personality, tracks = [], overrides = {} }) {
             listStylePosition: "inside",
           }}
         >
-          {tracks?.slice(0, 5).map((t, i) => (
-            <li key={t.id || i}>{t.name}</li>
-          ))}
+          {tracks?.slice(0, 5).map((t, i) => {
+            const artistStr = t.artists?.join(", ");
+            return (
+              <li key={t.id || i}>
+                {artistStr ? `${t.name} by ${artistStr}` : t.name}
+              </li>
+            );
+          })}
         </ol>
       </div>
 

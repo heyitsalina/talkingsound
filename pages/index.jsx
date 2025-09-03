@@ -12,10 +12,11 @@ export default function Home() {
 
   return (
     <main className="main-container">
+      <img src="/logo/logo.png" alt="Talking Sound logo" className="logo" />
       <h1> Welcome to Talking Sound! </h1>
       <p>
         Log in with your Spotify & turn your top tracks into your collectible card — front is all about vibes, back is an interactive vinyl of your stats.
-        Have fun, share your card with friends and don't forget to put on your best playlist meanwhile 🌞 
+        Have fun, share your card with friends and don't forget to put on your best playlist meanwhile 🌞
       </p>
 
       <div className="auth-box" aria-hidden={false}>
