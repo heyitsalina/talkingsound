@@ -1,0 +1,9 @@
+{
+  "top_artists": [
+    {"name":"Lorde","genres":["indie pop"],"popularity":75,"followers":3000000,"image":""},
+    {"name":"Kendrick Lamar","genres":["hip hop"],"popularity":90,"followers":20000000,"image":""}
+  ],
+  "top_tracks": [
+    {"id":"1","name":"Track A","artists":["Artist A"],"popularity":80,"audio_features":{"energy":0.8,"valence":0.5,"danceability":0.7,"tempo":120}}
+  ]
+}
