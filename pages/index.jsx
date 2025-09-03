@@ -15,7 +15,6 @@ export default function Home() {
       <h1> 🃏 Welcome to Talking Sounds! </h1>
       <p>
         Log in with your Spotify & turn your top tracks into your collectible card — front is all about vibes, back is an interactive vinyl of your stats.
-        If Spotify auth acts up (very sorry), just use <strong>Load sample data</strong> in the app to keep building! 
         Have fun, share your card with friends and don't forget to put on your best playlist meanwhile 🌞 
       </p>
 
@@ -23,10 +22,6 @@ export default function Home() {
         <a className="auth-btn" href={authUrl} role="button">
           Login with Spotify
         </a>
-      </div>
-
-      <div className="small-note">
-        Want the look tweaked? Tell me what to change (fonts, spacing, colors, etc.) and I’ll patch it up :) 
       </div>
     </main>
   );
