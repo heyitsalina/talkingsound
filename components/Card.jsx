@@ -4,12 +4,13 @@ import { toPng } from "html-to-image";
 import { saveAs } from "file-saver";
 import { frontPathFor, backPathFor } from "../utils/assets";
 
-export default function Card({ personality, artists = [], overrides = {} }) {
-  // reference only the visible card image for PNG export
+export default function Card({ personality, artists = [], features = {}, overrides = {} }) {
+  // reference the card for PNG export
   const cardRef = useRef();
   const [frontUrl, setFrontUrl] = useState(null);
   const [backUrl, setBackUrl] = useState(null);
   const [showBack, setShowBack] = useState(false);
+  const [cardHeight, setCardHeight] = useState(0);
 
   useEffect(() => {
     const key = personality || "";
@@ -53,20 +54,27 @@ export default function Card({ personality, artists = [], overrides = {} }) {
   return (
     <div style={{ textAlign: "center" }}>
       <div
-        ref={cardRef}
-        style={{ width: 420, borderRadius: 12, overflow: "hidden", margin: "0 auto" }}
+        className="flip-scene"
+        style={{ width: 420, height: cardHeight || "auto", margin: "0 auto" }}
       >
-        {!showBack ? (
-          <img
-            src={frontUrl}
-            alt="front"
-            style={{ width: "100%", display: "block" }}
-            onError={(e) => {
-              e.currentTarget.src = "/cards/fronts/default-front.png";
-            }}
-          />
-        ) : (
-          <div style={{ position: "relative" }}>
+        <div
+          ref={cardRef}
+          className={`flip-card ${showBack ? "is-flipped" : ""}`}
+          onClick={() => setShowBack((s) => !s)}
+          style={{ width: "100%", height: "100%" }}
+        >
+          <div className="flip-card-face">
+            <img
+              src={frontUrl}
+              alt="front"
+              style={{ width: "100%", display: "block" }}
+              onLoad={(e) => setCardHeight(e.currentTarget.offsetHeight)}
+              onError={(e) => {
+                e.currentTarget.src = "/cards/fronts/default-front.png";
+              }}
+            />
+          </div>
+          <div className="flip-card-face flip-card-back">
             <img
               src={backUrl}
               alt="back"
@@ -88,33 +96,23 @@ export default function Card({ personality, artists = [], overrides = {} }) {
                 pointerEvents: "none",
               }}
             >
-              <div style={{ width: "60%", pointerEvents: "auto" }}>
-                <CdViz artists={artists} size={320} />
+              <div style={{ width: "60%", pointerEvents: "none" }}>
+                <CdViz features={features} size={320} />
               </div>
             </div>
           </div>
-        )}
+        </div>
       </div>
 
-      {!showBack && (
-        <div style={{ width: 420, margin: "12px auto 0", textAlign: "center" }}>
-          <h3 style={{ margin: 0 }}>{personality}</h3>
-          <p style={{ marginTop: 8, color: "#333", fontSize: 14 }}>
-            {artists?.slice(0, 3).map((a) => a.name).join(", ")}
-          </p>
-        </div>
-      )}
+      <div style={{ width: 420, margin: "12px auto 0", textAlign: "center" }}>
+        <h3 style={{ margin: 0 }}>{personality}</h3>
+        <p style={{ marginTop: 8, color: "#333", fontSize: 14 }}>
+          {artists?.slice(0, 3).map((a) => a.name).join(", ")}
+        </p>
+      </div>
 
-      <div
-        style={{ marginTop: 8, display: "flex", gap: 8, justifyContent: "center" }}
-      >
-        <button onClick={() => setShowBack((s) => !s)}>
-          {showBack ? "Vorderseite" : "Rückseite"}
-        </button>
-        <button
-          onClick={download}
-          style={{ background: "var(--brand-red)", color: "#fff" }}
-        >
+      <div style={{ marginTop: 12 }}>
+        <button onClick={download} className="auth-btn">
           Download
         </button>
       </div>
