@@ -11,8 +11,6 @@ export function frontPathFor(personality) {
   return `/cards/fronts/${key}.png`;
 }
 
-export function backPathFor(personality) {
-  if (!personality) return "/cards/backs/back.png";
-  const key = NORMALIZE(personality);
-  return `/cards/backs/${key}-back.png`;
+export function backPathFor() {
+  return "/cards/backs/back.png";
 }
