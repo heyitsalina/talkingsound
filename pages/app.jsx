@@ -16,6 +16,7 @@ const FEATURE_KEYS = [
 export default function AppPage() {
   const [token, setToken] = useState(null);
   const [artists, setArtists] = useState([]);
+  const [tracks, setTracks] = useState([]);
   const [personality, setPersonality] = useState(null);
   const [features, setFeatures] = useState({});
 
@@ -35,6 +36,7 @@ export default function AppPage() {
         const a = await fetchTopArtists(token, 20);
         const t = await fetchTopTracks(token, 20);
         setArtists(a);
+        setTracks(t);
         setPersonality(mapToPersonality(a, t));
         const feat = FEATURE_KEYS.reduce((acc, k) => ({ ...acc, [k]: 0 }), {});
         let count = 0;
@@ -62,7 +64,12 @@ export default function AppPage() {
   return (
     <main className="main-container" style={{ color: "var(--text-white)" }}>
       <div className="card-wrapper">
-        <Card personality={personality} artists={artists} features={features} />
+        <Card
+          personality={personality}
+          tracks={tracks}
+          artists={artists}
+          features={features}
+        />
       </div>
     </main>
   );

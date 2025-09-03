@@ -15,10 +15,18 @@ export async function fetchTopArtists(token, limit = 20) {
 }
 
 export async function fetchTopTracks(token, limit = 20) {
-  const res = await axios.get(`https://api.spotify.com/v1/me/top/tracks?limit=${limit}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  const tracks = res.data.items.map((t) => ({ id: t.id, name: t.name, artists: t.artists.map(a=>a.name), popularity: t.popularity }));
+  const res = await axios.get(
+    `https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=${limit}`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+  const tracks = res.data.items.map((t) => ({
+    id: t.id,
+    name: t.name,
+    artists: t.artists.map((a) => a.name),
+    popularity: t.popularity,
+  }));
   const ids = tracks.map(t=>t.id).filter(Boolean).join(",");
   if (!ids) return tracks;
   const featRes = await axios.get(`https://api.spotify.com/v1/audio-features?ids=${ids}`, {

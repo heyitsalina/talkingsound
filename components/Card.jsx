@@ -3,7 +3,7 @@ import { toPng } from "html-to-image";
 import { saveAs } from "file-saver";
 import { frontPathFor, backPathFor } from "../utils/assets";
 
-export default function Card({ personality, artists = [], overrides = {} }) {
+export default function Card({ personality, tracks = [], overrides = {} }) {
   // reference the card for PNG export
   const cardRef = useRef();
   const [frontUrl, setFrontUrl] = useState(null);
@@ -90,9 +90,19 @@ export default function Card({ personality, artists = [], overrides = {} }) {
 
       <div style={{ width: 420, margin: "12px auto 0", textAlign: "center" }}>
         <h3 style={{ margin: 0 }}>{personality}</h3>
-        <p style={{ marginTop: 8, color: "#333", fontSize: 14 }}>
-          {artists?.slice(0, 3).map((a) => a.name).join(", ")}
-        </p>
+        <ol
+          style={{
+            marginTop: 8,
+            color: "#fff",
+            fontSize: 14,
+            paddingLeft: 20,
+            textAlign: "left",
+          }}
+        >
+          {tracks?.slice(0, 5).map((t, i) => (
+            <li key={t.id || i}>{t.name}</li>
+          ))}
+        </ol>
       </div>
 
       <div
