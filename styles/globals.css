@@ -59,6 +59,13 @@ body {
   margin-right: auto;
 }
 
+.logo {
+  display: block;
+  margin: 0 auto 24px;
+  max-width: 200px;
+  height: auto;
+}
+
 /* Kasten um Login-Button */
 .auth-box {
   display: inline-block;
@@ -137,4 +144,4 @@ body {
   top: 0;
   left: 0;
 }
-.flip-card-back { transform: rotateY(180deg); }
+.flip-card-back {}
