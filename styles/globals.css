@@ -1,15 +1,11 @@
-:root{
-  --brand-red: #CB1F1F;   /* <-- dein gewünschtes Rot */
-  --text-white: #FFFFFF;
+@import url('https://fonts.cdnfonts.com/css/apple-garamond');
+
+:root {
+  --brand-red: #CB1F1F;   /* Red background */
+  --text-white: #FFFFFF;  /* White text */
   --muted-white: rgba(255,255,255,0.88);
   --panel-alpha: rgba(255,255,255,0.08);
   --card-width: 420px;
-}
-
-@font-face {
-  font-family: "AppleGaramond";
-  src: url("/fonts/AppleGaramond.woff2") format("woff2");
-  font-display: swap;
 }
 
 * { box-sizing: border-box; }
@@ -23,7 +19,7 @@ body {
   padding: 0;
   background: var(--brand-red);     /* red background */
   color: var(--text-white);         /* white text */
-  font-family: "AppleGaramond", Georgia, serif;
+  font-family: "Apple Garamond", Georgia, serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: flex;
