@@ -1,10 +1,9 @@
 import React, { useRef, useState, useEffect } from "react";
-import CdViz from "./CdViz";
 import { toPng } from "html-to-image";
 import { saveAs } from "file-saver";
 import { frontPathFor, backPathFor } from "../utils/assets";
 
-export default function Card({ personality, artists = [], features = {}, overrides = {} }) {
+export default function Card({ personality, artists = [], overrides = {} }) {
   // reference the card for PNG export
   const cardRef = useRef();
   const [frontUrl, setFrontUrl] = useState(null);
@@ -41,20 +40,16 @@ export default function Card({ personality, artists = [], features = {}, overrid
 
   const download = async () => {
     if (!cardRef.current) return;
-    const wasBack = showBack;
     try {
-      setShowBack(true);
-      await new Promise((r) => setTimeout(r, 100));
       const dataUrl = await toPng(cardRef.current, { cacheBust: true });
+      const suffix = showBack ? "back" : "front";
       saveAs(
         dataUrl,
-        `${(personality || "card").replace(/\s+/g, "-")}-back.png`
+        `${(personality || "card").replace(/\s+/g, "-")}-${suffix}.png`
       );
     } catch (e) {
       console.error(e);
       alert("Export failed");
-    } finally {
-      setShowBack(wasBack);
     }
   };
 
@@ -67,7 +62,6 @@ export default function Card({ personality, artists = [], features = {}, overrid
         <div
           ref={cardRef}
           className={`flip-card ${showBack ? "is-flipped" : ""}`}
-          onClick={() => setShowBack((s) => !s)}
           style={{ width: "100%", height: "100%" }}
         >
           <div className="flip-card-face">
@@ -90,23 +84,6 @@ export default function Card({ personality, artists = [], features = {}, overrid
                 e.currentTarget.src = backPathFor();
               }}
             />
-            <div
-              style={{
-                position: "absolute",
-                left: 0,
-                top: 0,
-                right: 0,
-                bottom: 0,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                pointerEvents: "none",
-              }}
-            >
-              <div style={{ width: "60%", pointerEvents: "none" }}>
-                <CdViz features={features} size={320} />
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -118,7 +95,20 @@ export default function Card({ personality, artists = [], features = {}, overrid
         </p>
       </div>
 
-      <div style={{ marginTop: 12 }}>
+      <div
+        style={{
+          marginTop: 12,
+          display: "flex",
+          justifyContent: "center",
+          gap: 8,
+        }}
+      >
+        <button
+          onClick={() => setShowBack((s) => !s)}
+          className="auth-btn"
+        >
+          {showBack ? "Show Front" : "Show Back"}
+        </button>
         <button onClick={download} className="auth-btn">
           Download
         </button>
