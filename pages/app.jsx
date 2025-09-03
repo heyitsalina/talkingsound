@@ -59,7 +59,7 @@ export default function AppPage() {
 
   return (
     <main className="main-container" style={{ color: "var(--text-white)" }}>
-      <h2 style={{ fontSize: 24, marginBottom: 8, color: "var(--text-white)" }}>Talking Sounds — App</h2>
+      <h2 style={{ fontSize: 24, marginBottom: 8, color: "var(--text-white)" }}>Talking Sounds</h2>
 
       <div style={{ marginTop: 12, display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
         <button
