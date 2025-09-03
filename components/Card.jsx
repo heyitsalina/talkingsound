@@ -70,7 +70,12 @@ export default function Card({ personality, tracks = [], overrides = {} }) {
               ref={frontRef}
               src={frontUrl}
               alt="front"
-              style={{ width: "100%", display: "block" }}
+              style={{
+                width: "100%",
+                display: "block",
+                borderRadius: 12,
+                backfaceVisibility: "hidden",
+              }}
               onLoad={(e) => setCardHeight(e.currentTarget.offsetHeight)}
               onError={(e) => {
                 e.currentTarget.src = frontPathFor();
@@ -82,7 +87,12 @@ export default function Card({ personality, tracks = [], overrides = {} }) {
               ref={backRef}
               src={backUrl}
               alt="back"
-              style={{ width: "100%", display: "block" }}
+              style={{
+                width: "100%",
+                display: "block",
+                borderRadius: 12,
+                backfaceVisibility: "hidden",
+              }}
               onError={(e) => {
                 e.currentTarget.src = backPathFor();
               }}
@@ -92,14 +102,15 @@ export default function Card({ personality, tracks = [], overrides = {} }) {
       </div>
 
       <div style={{ width: 420, margin: "12px auto 0", textAlign: "center" }}>
-        <h3 style={{ margin: 0 }}>{personality}</h3>
+        <h3 style={{ margin: 0 }}>Your Top Songs This Month</h3>
         <ol
           style={{
             marginTop: 8,
             color: "#fff",
             fontSize: 14,
-            paddingLeft: 20,
-            textAlign: "left",
+            paddingLeft: 0,
+            textAlign: "center",
+            listStylePosition: "inside",
           }}
         >
           {tracks?.slice(0, 5).map((t, i) => (
