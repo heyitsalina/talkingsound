@@ -4,10 +4,14 @@ export default async function handler(req, res) {
   const code = req.query.code;
   if (!code) return res.status(400).send("Missing code");
 
+  const protocol = req.headers["x-forwarded-proto"] || "http";
+  const host = req.headers["x-forwarded-host"] || req.headers.host;
+  const redirectUri = `${protocol}://${host}/api/spotify/callback`;
+
   const params = new URLSearchParams({
     grant_type: "authorization_code",
     code,
-    redirect_uri: process.env.NEXT_PUBLIC_REDIRECT_URI,
+    redirect_uri: redirectUri,
   }).toString();
 
   try {
