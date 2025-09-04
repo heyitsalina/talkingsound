@@ -33,6 +33,23 @@ export default function ArtistShareChart({ tracks = [], artists = [] }) {
     <div style={{ width: 180, textAlign: "center", color: "#CB1F1F" }}>
       <div
         style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 4,
+          marginBottom: 8,
+        }}
+      >
+        <span style={{ fontWeight: 700 }}>Top Artist Share</span>
+        <span
+          style={{ cursor: "help" }}
+          title="Shows how your top tracks are distributed among artists."
+        >
+          ℹ️
+        </span>
+      </div>
+      <div
+        style={{
           width: 180,
           height: 180,
           borderRadius: "50%",
@@ -65,7 +82,7 @@ export default function ArtistShareChart({ tracks = [], artists = [] }) {
                 }}
               />
               {s.name}
-              {genres ? ` – ${genres}` : ""} ({Math.round(s.share * 100)}%)
+              {genres ? ` (${genres})` : ""} ({Math.round(s.share * 100)}%)
             </li>
           );
         })}
