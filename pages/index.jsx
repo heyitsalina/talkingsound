@@ -1,5 +1,6 @@
 // pages/index.jsx
 import React from "react";
+import Link from "next/link";
 
 const SCOPES = ["user-top-read"].join(" ");
 const CLIENT_ID = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
@@ -25,6 +26,9 @@ export default function Home() {
           Login with Spotify
         </a>
       </div>
+      <nav className="page-links">
+        <Link href="/privacy">Data Privacy</Link> | <Link href="/kontakt">Kontakt</Link>
+      </nav>
     </main>
   );
 }
