@@ -2,8 +2,9 @@ import React, { useRef, useState, useEffect } from "react";
 import { toPng } from "html-to-image";
 import { saveAs } from "file-saver";
 import { frontPathFor, backPathFor } from "../utils/assets";
+import VinylChart from "./VinylChart";
 
-export default function Card({ personality, tracks = [], overrides = {} }) {
+export default function Card({ personality, tracks = [], artists = [], overrides = {} }) {
   // reference each card face for PNG export
   const frontRef = useRef();
   const backRef = useRef();
@@ -69,15 +70,20 @@ export default function Card({ personality, tracks = [], overrides = {} }) {
             e.currentTarget.src = frontPathFor();
           }}
         />
-        <img
+        <div
           ref={backRef}
-          src={backUrl}
-          alt="back"
-          style={{ width: 420, display: "block", borderRadius: 12 }}
-          onError={(e) => {
-            e.currentTarget.src = backPathFor();
-          }}
-        />
+          style={{ position: "relative", width: 420, borderRadius: 12, overflow: "hidden" }}
+        >
+          <img
+            src={backUrl}
+            alt="back"
+            style={{ width: 420, display: "block" }}
+            onError={(e) => {
+              e.currentTarget.src = backPathFor();
+            }}
+          />
+          <VinylChart artistData={artists} trackData={tracks} />
+        </div>
       </div>
 
       <div style={{ width: 840, margin: "12px auto 0", textAlign: "center" }}>

@@ -26,6 +26,7 @@ export async function fetchTopTracks(token, limit = 20) {
     name: t.name,
     artists: t.artists.map((a) => a.name),
     popularity: t.popularity,
+    preview_url: t.preview_url,
   }));
   const ids = tracks.map(t=>t.id).filter(Boolean).join(",");
   if (!ids) return tracks;
