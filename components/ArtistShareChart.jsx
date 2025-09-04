@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function ArtistShareChart({ tracks = [] }) {
+export default function ArtistShareChart({ tracks = [], artists = [] }) {
   const counts = {};
   tracks.forEach((t) => {
     (t.artists || []).forEach((a) => {
@@ -24,8 +24,13 @@ export default function ArtistShareChart({ tracks = [] }) {
     .map((s) => `${s.color} ${s.startAngle}deg ${s.endAngle}deg`)
     .join(", ");
 
+  const artistMap = artists.reduce((map, a) => {
+    map[a.name] = a;
+    return map;
+  }, {});
+
   return (
-    <div style={{ width: 180, textAlign: "center", color: "#fff" }}>
+    <div style={{ width: 180, textAlign: "center", color: "#CB1F1F" }}>
       <div
         style={{
           width: 180,
@@ -36,12 +41,34 @@ export default function ArtistShareChart({ tracks = [] }) {
         }}
       />
       <ul style={{ listStyle: "none", padding: 0, margin: "8px 0 0" }}>
-        {segments.map((s) => (
-          <li key={s.name} style={{ fontSize: 12, marginBottom: 4, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <span style={{ width: 12, height: 12, backgroundColor: s.color, borderRadius: "50%", display: "inline-block", marginRight: 4 }} />
-            {s.name} ({Math.round(s.share * 100)}%)
-          </li>
-        ))}
+        {segments.map((s) => {
+          const genres = artistMap[s.name]?.genres?.join(", ");
+          return (
+            <li
+              key={s.name}
+              style={{
+                fontSize: 12,
+                marginBottom: 4,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <span
+                style={{
+                  width: 12,
+                  height: 12,
+                  backgroundColor: s.color,
+                  borderRadius: "50%",
+                  display: "inline-block",
+                  marginRight: 4,
+                }}
+              />
+              {s.name}
+              {genres ? ` – ${genres}` : ""} ({Math.round(s.share * 100)}%)
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

@@ -95,10 +95,10 @@ export default function Card({ personality, tracks = [], artists = [], overrides
               justifyContent: "center",
               gap: 16,
               padding: "24px 0",
-              color: "#fff",
+              color: "#CB1F1F",
             }}
           >
-            <ArtistShareChart tracks={tracks} />
+            <ArtistShareChart tracks={tracks} artists={artists} />
           </div>
         </div>
       </div>
