@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { toPng } from "html-to-image";
 import { saveAs } from "file-saver";
 import { frontPathFor, backPathFor } from "../utils/assets";
+import ArtistShareChart from "./ArtistShareChart";
 
 export default function Card({ personality, tracks = [], artists = [], overrides = {} }) {
   // reference each card face for PNG export
@@ -81,7 +82,24 @@ export default function Card({ personality, tracks = [], artists = [], overrides
               e.currentTarget.src = backPathFor();
             }}
           />
-          {/* charts removed */}
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 16,
+              padding: "24px 0",
+              color: "#fff",
+            }}
+          >
+            <ArtistShareChart tracks={tracks} />
+          </div>
         </div>
       </div>
 
