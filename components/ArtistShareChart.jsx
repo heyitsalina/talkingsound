@@ -53,7 +53,7 @@ export default function ArtistShareChart({ tracks = [], artists = [] }) {
           marginBottom: 8,
         }}
       >
-        <span style={{ fontWeight: 700 }}>Top Artist Share</span>
+        <span style={{ fontWeight: 900, fontSize: 16 }}>Top Artist Share</span>
         <span
           style={{ cursor: "help" }}
           title="Shows how your top tracks are distributed among artists."

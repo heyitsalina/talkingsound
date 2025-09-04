@@ -23,7 +23,7 @@ export default function GenreCloudChart({ artists = [] }) {
           marginBottom: 8,
         }}
       >
-        <span style={{ fontWeight: 700 }}>Genre Cloud</span>
+        <span style={{ fontWeight: 900, fontSize: 16 }}>Genre Cloud</span>
         <span
           style={{ cursor: "help" }}
           title="Shows which genres appear most in your top artists—bigger = more frequent."
@@ -37,6 +37,9 @@ export default function GenreCloudChart({ artists = [] }) {
           flexWrap: "wrap",
           justifyContent: "center",
           gap: 8,
+          border: "2px solid #CB1F1F",
+          borderRadius: 12,
+          padding: 8,
         }}
       >
         {entries
