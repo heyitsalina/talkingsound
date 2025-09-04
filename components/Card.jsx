@@ -103,12 +103,12 @@ export default function Card({ personality, tracks = [], overrides = {} }) {
       </div>
 
       <div style={{ width: 420, margin: "12px auto 0", textAlign: "center" }}>
-        <h3 style={{ margin: 0 }}>Your Top Songs This Month</h3>
+        <h3 style={{ margin: 0, fontSize: 24 }}>Your Top Songs This Month</h3>
         <ol
           style={{
             marginTop: 8,
             color: "#fff",
-            fontSize: 14,
+            fontSize: 18,
             paddingLeft: 0,
             textAlign: "center",
             listStylePosition: "inside",
