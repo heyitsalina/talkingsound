@@ -1,4 +1,25 @@
-# Talking Sounds — Starter Repo
+# Talking Sound 🎧 — collectible music cards
+
+<img width="1368" height="770" alt="Asset 5" src="https://github.com/user-attachments/assets/29df386b-5ae4-48a1-9428-4fa8bc86207a" />
+
+**Turn your Spotify taste into collectible cards — front = personality, back = interactive vinyl.**  
+Talking Sound verwandelt Hörgewohnheiten in ein visuelles, teilbares Statement: Die Vorderseite zeigt deine Musik-Persönlichkeit, die Rückseite eine interaktive Vinyl-Visualisierung mit deinen wichtigsten Statistiken.
+
+---
+
+## Vorschau
+
+**Die 16 Persönlichkeiten**  
+
+<img width="1080" height="1350" alt="Design ohne Titel (3)" src="https://github.com/user-attachments/assets/4e53d487-3b6d-4cdd-86c1-9ee695c6ca89" />
+
+
+
+**App-Screenshot**  
+
+<img width="1440" height="767" alt="Bildschirmfoto 2025-09-04 um 16 53 01" src="https://github.com/user-attachments/assets/e39ff2b4-1912-404c-8c3f-7c6d32089c8e" />
+
+---
 
 ## Run the demo locally
 
