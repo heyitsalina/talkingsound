@@ -3,6 +3,7 @@ import { toPng } from "html-to-image";
 import { saveAs } from "file-saver";
 import { frontPathFor, backPathFor } from "../utils/assets";
 import ArtistShareChart from "./ArtistShareChart";
+import GenreCloudChart from "./GenreCloudChart";
 
 export default function Card({ personality, tracks = [], artists = [], overrides = {} }) {
   // reference each card face for PNG export
@@ -99,6 +100,7 @@ export default function Card({ personality, tracks = [], artists = [], overrides
             }}
           >
             <ArtistShareChart tracks={tracks} artists={artists} />
+            <GenreCloudChart artists={artists} />
           </div>
         </div>
       </div>
