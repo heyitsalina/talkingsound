@@ -15,7 +15,8 @@ export default function Home() {
       <img src="/logo/logo.png" alt="Talking Sound logo" className="logo" />
       <h1> Welcome to Talking Sound! </h1>
       <p>
-        Log in with your Spotify & turn your top tracks into your collectible card — front is all about vibes, back is an interactive vinyl of your stats.
+        Log in with your Spotify & turn your music taste into a collectible card — front is all about vibes, back is an interactive vinyl of your statistics.
+        Talking Sound explores 16 different personalities based on your listening habits.. are you ready to know who YOU really are?
         Have fun, share your card with friends and don't forget to put on your best playlist meanwhile 🌞
       </p>
 

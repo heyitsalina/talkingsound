@@ -82,6 +82,7 @@ body {
   padding: 12px 20px;
   background: var(--text-white);    /* white button */
   color: var(--brand-red);          /* red label */
+  font-family: "Apple Garamond", Georgia, serif;
   border-radius: 10px;
   text-decoration: none;
   font-weight: 700;
