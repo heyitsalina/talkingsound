@@ -27,7 +27,7 @@ export default function Home() {
         </a>
       </div>
       <nav className="page-links">
-        <Link href="/privacy">Data Privacy</Link> | <Link href="/kontakt">Kontakt</Link>
+        <Link href="/privacy">Data Privacy</Link> | <Link href="/kontakt">Contact</Link>
       </nav>
     </main>
   );

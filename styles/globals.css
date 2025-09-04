@@ -160,6 +160,6 @@ body {
 
 /* Contact page link styling */
 .contact a {
-  color: var(--brand-red);
+  color: var(--text-white);
   text-decoration: underline;
 }
