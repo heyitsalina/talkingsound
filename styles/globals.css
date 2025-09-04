@@ -146,3 +146,20 @@ body {
   left: 0;
 }
 .flip-card-back {}
+
+/* Navigation links on the home page */
+.page-links {
+  margin-top: 24px;
+}
+
+.page-links a {
+  color: var(--muted-white);
+  margin: 0 8px;
+  text-decoration: underline;
+}
+
+/* Contact page link styling */
+.contact a {
+  color: var(--brand-red);
+  text-decoration: underline;
+}
