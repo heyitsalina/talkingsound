@@ -1,8 +1,12 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, Suspense } from "react";
 import { toPng } from "html-to-image";
 import { saveAs } from "file-saver";
 import { frontPathFor, backPathFor } from "../utils/assets";
-import VinylChart from "./VinylChart";
+import { buildVinylData } from "../utils/vinylData";
+
+const VinylArtistShare = React.lazy(() => import("./VinylArtistShare"));
+const VinylMoodScatter = React.lazy(() => import("./VinylMoodScatter"));
+const VinylDanceWave = React.lazy(() => import("./VinylDanceWave"));
 
 export default function Card({ personality, tracks = [], artists = [], overrides = {} }) {
   // reference each card face for PNG export
@@ -82,7 +86,20 @@ export default function Card({ personality, tracks = [], artists = [], overrides
               e.currentTarget.src = backPathFor();
             }}
           />
-          <VinylChart artistData={artists} trackData={tracks} />
+          {(() => {
+            const { artistData, trackData } = buildVinylData(artists, tracks);
+            return (
+              <Suspense fallback={null}>
+                <VinylArtistShare
+                  artistData={artistData}
+                  trackData={trackData}
+                  size={420}
+                />
+                <VinylDanceWave trackData={trackData} size={420} />
+                <VinylMoodScatter trackData={trackData} size={420} />
+              </Suspense>
+            );
+          })()}
         </div>
       </div>
 
