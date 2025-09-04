@@ -21,10 +21,17 @@ export default function Home() {
         Have fun, share your card with friends and don't forget to put on your best playlist meanwhile 🌞
       </p>
 
-      <div className="auth-box" aria-hidden={false}>
+      <div
+        className="auth-box"
+        aria-hidden={false}
+        style={{ display: "flex", flexDirection: "column", gap: "12px" }}
+      >
         <a className="auth-btn" href={authUrl} role="button">
           Login with Spotify
         </a>
+        <Link className="auth-btn" href="/app" role="button">
+          Use sample data
+        </Link>
       </div>
       <nav className="page-links">
         <Link href="/privacy">Data Privacy</Link> | <Link href="/kontakt">Contact</Link>
