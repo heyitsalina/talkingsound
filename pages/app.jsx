@@ -1,7 +1,7 @@
 // pages/app.jsx
 import React, { useEffect, useState } from "react";
 import { fetchTopArtists, fetchTopTracks } from "../utils/spotify";
-import { mapToPersonality } from "../utils/mapping";
+import { mapToPersonalityImproved } from "../utils/mapping";
 import Card from "../components/Card";
 
 const FEATURE_KEYS = [
@@ -37,14 +37,20 @@ export default function AppPage() {
         const t = await fetchTopTracks(token, 20);
         setArtists(a);
         setTracks(t);
-        setPersonality(mapToPersonality(a, t));
+        const featureMap = {};
+        t.forEach((tr) => {
+          if (tr.audio_features) featureMap[tr.id] = tr.audio_features;
+        });
+        const result = mapToPersonalityImproved(a, t, featureMap);
+        setPersonality(result.personality);
         const feat = FEATURE_KEYS.reduce((acc, k) => ({ ...acc, [k]: 0 }), {});
         let count = 0;
         t.forEach((tr) => {
-          if (tr.audio_features) {
+          const af = featureMap[tr.id];
+          if (af) {
             count++;
             FEATURE_KEYS.forEach((k) => {
-              feat[k] += tr.audio_features[k] || 0;
+              feat[k] += af[k] || 0;
             });
           }
         });
