@@ -20,12 +20,53 @@ export default function AppPage() {
   const [personality, setPersonality] = useState(null);
   const [features, setFeatures] = useState({});
 
+  const processData = (a, t) => {
+    setArtists(a);
+    setTracks(t);
+    const featureMap = {};
+    t.forEach((tr) => {
+      if (tr.audio_features) featureMap[tr.id] = tr.audio_features;
+    });
+    const result = mapToPersonalityImproved(a, t, featureMap);
+    setPersonality(result.personality);
+    const feat = FEATURE_KEYS.reduce((acc, k) => ({ ...acc, [k]: 0 }), {});
+    let count = 0;
+    t.forEach((tr) => {
+      const af = featureMap[tr.id];
+      if (af) {
+        count++;
+        FEATURE_KEYS.forEach((k) => {
+          feat[k] += af[k] || 0;
+        });
+      }
+    });
+    if (count > 0) {
+      FEATURE_KEYS.forEach((k) => {
+        feat[k] = (feat[k] / count) * 100;
+      });
+    }
+    setFeatures(feat);
+  };
+
+  const loadSample = async () => {
+    try {
+      const a = await fetch("/sample-data/artists.json").then((r) => r.json());
+      const t = await fetch("/sample-data/tracks.json").then((r) => r.json());
+      processData(a, t);
+    } catch (e) {
+      console.error("Sample load failed", e);
+      alert("Sample data loading failed");
+    }
+  };
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const t = params.get("access_token");
     if (t) {
       setToken(t);
       history.replaceState({}, "", "/app");
+    } else {
+      loadSample();
     }
   }, []);
 
@@ -35,31 +76,7 @@ export default function AppPage() {
       try {
         const a = await fetchTopArtists(token, 20);
         const t = await fetchTopTracks(token, 20);
-        setArtists(a);
-        setTracks(t);
-        const featureMap = {};
-        t.forEach((tr) => {
-          if (tr.audio_features) featureMap[tr.id] = tr.audio_features;
-        });
-        const result = mapToPersonalityImproved(a, t, featureMap);
-        setPersonality(result.personality);
-        const feat = FEATURE_KEYS.reduce((acc, k) => ({ ...acc, [k]: 0 }), {});
-        let count = 0;
-        t.forEach((tr) => {
-          const af = featureMap[tr.id];
-          if (af) {
-            count++;
-            FEATURE_KEYS.forEach((k) => {
-              feat[k] += af[k] || 0;
-            });
-          }
-        });
-        if (count > 0) {
-          FEATURE_KEYS.forEach((k) => {
-            feat[k] = (feat[k] / count) * 100;
-          });
-        }
-        setFeatures(feat);
+        processData(a, t);
       } catch (e) {
         console.error("Fetch failed", e);
         alert("Loading failed");

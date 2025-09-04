@@ -1,23 +1,29 @@
 # Talking Sounds — Starter Repo
 
-Quick: unzip and run locally for your MVP.
+## Run the demo locally
 
-Steps:
-1. Copy your 16 front PNGs into `public/cards/fronts/` using the naming convention:
-   the-ace.png, the-seeker.png, the-nostalgic.png, the-rebel.png, the-pulse.png,
-   the-dreamer.png, the-poet.png, the-virtuoso.png, the-loner.png, the-romantic.png,
-   the-firestarter.png, the-prophet.png, the-shadow.png, the-siren.png, the-shapeshifter.png, the-oracle.png
+Sample data is included so you can try the app without a Spotify account or any credentials.
 
-2. Copy at least one back PNG into `public/cards/backs/back.png` (or per-personality: `the-ace-back.png`, ...)
-
-3. Create `.env.local` from `.env.example` and add your `SPOTIFY_CLIENT_SECRET`.
-
-4. Install & run:
+1. Install dependencies
    ```
    npm install
+   ```
+2. Start the development server
+   ```
    npm run dev
    ```
+3. Open `http://localhost:3000/app` – the sample artists and tracks will be loaded automatically.
 
-Open `http://127.0.0.1:3000`.
+## Using your own Spotify data
 
-This zip contains the starter code. Images/fonts are placeholders and must be added manually.
+To generate a card from your personal listening data you need a Spotify application:
+
+1. Create a `.env.local` file and add your Spotify credentials:
+   ```
+   NEXT_PUBLIC_SPOTIFY_CLIENT_ID=your_client_id
+   SPOTIFY_CLIENT_SECRET=your_client_secret
+   NEXT_PUBLIC_REDIRECT_URI=http://localhost:3000/api/spotify/callback
+   ```
+2. Run `npm install` and `npm run dev` and open `http://localhost:3000`.
+
+The card front and back images are already bundled with the project, so no extra setup is required for them. Custom fonts are not included and must be added manually if desired.

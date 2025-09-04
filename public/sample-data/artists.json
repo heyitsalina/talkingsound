@@ -1,0 +1,26 @@
+[
+  {
+    "id": "artist1",
+    "name": "Synth Master",
+    "genres": ["electronic", "house"],
+    "popularity": 80,
+    "followers": 500000,
+    "image": "/logo/logo.png"
+  },
+  {
+    "id": "artist2",
+    "name": "Acoustic Soul",
+    "genres": ["soul", "acoustic"],
+    "popularity": 60,
+    "followers": 200000,
+    "image": "/logo/logo.png"
+  },
+  {
+    "id": "artist3",
+    "name": "Indie Dreamer",
+    "genres": ["indie", "dream pop"],
+    "popularity": 50,
+    "followers": 150000,
+    "image": "/logo/logo.png"
+  }
+]
