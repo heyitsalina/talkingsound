@@ -1,27 +1,14 @@
-import React, { useRef, useState, useEffect, useMemo } from "react";
-import dynamic from "next/dynamic";
+import React, { useRef, useState, useEffect } from "react";
 import { toPng } from "html-to-image";
 import { saveAs } from "file-saver";
 import { frontPathFor, backPathFor } from "../utils/assets";
-import { buildVinylData } from "../utils/vinylData";
 
-const VinylChart = dynamic(() => import("./VinylChart"), { ssr: false, loading: () => null });
-
-export default function Card({ personality, artists = [], tracks = [], audioFeaturesById = {}, overrides = {} }) {
+export default function Card({ personality, tracks = [], overrides = {} }) {
   // reference each card face for PNG export
   const frontRef = useRef();
   const backRef = useRef();
   const [frontUrl, setFrontUrl] = useState(null);
   const [backUrl, setBackUrl] = useState(null);
-  const [showBack, setShowBack] = useState(false);
-  const [showChart, setShowChart] = useState(false);
-  const [cardHeight, setCardHeight] = useState(0);
-  const flipTimeout = useRef();
-
-  const { artistData, trackData } = useMemo(
-    () => buildVinylData(artists, tracks, audioFeaturesById),
-    [artists, tracks, audioFeaturesById]
-  );
 
   useEffect(() => {
     const key = personality || "";
@@ -50,92 +37,50 @@ export default function Card({ personality, artists = [], tracks = [], audioFeat
     }
   }, [personality, overrides]);
 
-  const download = async () => {
-    const node = showBack ? backRef.current : frontRef.current;
+  const download = async (side) => {
+    const node = side === "back" ? backRef.current : frontRef.current;
     if (!node) return;
     try {
       const dataUrl = await toPng(node, { cacheBust: true });
-      const suffix = showBack ? "back" : "front";
-      saveAs(
-        dataUrl,
-        `${(personality || "card").replace(/\s+/g, "-")}-${suffix}.png`
-      );
+      const suffix = side === "back" ? "back" : "front";
+      saveAs(dataUrl, `${(personality || "card").replace(/\s+/g, "-")}-${suffix}.png`);
     } catch (e) {
       console.error(e);
       alert("Export failed");
     }
   };
 
-  const handleFlip = () => {
-    setShowBack((prev) => {
-      const next = !prev;
-      if (flipTimeout.current) clearTimeout(flipTimeout.current);
-      if (next) {
-        flipTimeout.current = setTimeout(() => setShowChart(true), 600);
-      } else {
-        setShowChart(false);
-      }
-      return next;
-    });
-  };
-
-  useEffect(() => {
-    return () => {
-      if (flipTimeout.current) clearTimeout(flipTimeout.current);
-    };
-  }, []);
-
   return (
     <div style={{ textAlign: "center" }}>
       <div
-        className="flip-scene"
-        style={{ width: 420, height: cardHeight || "auto", margin: "0 auto" }}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: 20,
+          margin: "0 auto",
+        }}
       >
-        <div
-          className={`flip-card ${showBack ? "is-flipped" : ""}`}
-          style={{ width: "100%", height: "100%" }}
-        >
-          <div className="flip-card-face">
-            <img
-              ref={frontRef}
-              src={frontUrl}
-              alt="front"
-              style={{
-                width: "100%",
-                display: "block",
-                borderRadius: 12,
-                backfaceVisibility: "hidden",
-              }}
-              onLoad={(e) => setCardHeight(e.currentTarget.offsetHeight)}
-              onError={(e) => {
-                e.currentTarget.src = frontPathFor();
-              }}
-            />
-          </div>
-          <div className="flip-card-face flip-card-back" style={{ position: "relative" }}>
-            <img
-              ref={backRef}
-              src={backUrl}
-              alt="back"
-              style={{
-                width: "100%",
-                display: "block",
-                borderRadius: 12,
-                backfaceVisibility: "hidden",
-                transform: "rotateY(180deg)",
-              }}
-              onError={(e) => {
-                e.currentTarget.src = backPathFor();
-              }}
-            />
-            {showBack && showChart && (
-              <VinylChart artistData={artistData} trackData={trackData} />
-            )}
-          </div>
-        </div>
+        <img
+          ref={frontRef}
+          src={frontUrl}
+          alt="front"
+          style={{ width: 420, display: "block", borderRadius: 12 }}
+          onError={(e) => {
+            e.currentTarget.src = frontPathFor();
+          }}
+        />
+        <img
+          ref={backRef}
+          src={backUrl}
+          alt="back"
+          style={{ width: 420, display: "block", borderRadius: 12 }}
+          onError={(e) => {
+            e.currentTarget.src = backPathFor();
+          }}
+        />
       </div>
 
-      <div style={{ width: 420, margin: "12px auto 0", textAlign: "center" }}>
+      <div style={{ width: 840, margin: "12px auto 0", textAlign: "center" }}>
       <h3
           style={{
             margin: 0,
@@ -180,11 +125,11 @@ export default function Card({ personality, artists = [], tracks = [], audioFeat
           gap: 8,
         }}
       >
-        <button onClick={handleFlip} className="auth-btn">
-          {showBack ? "Show Front" : "Show Back"}
+        <button onClick={() => download("front")} className="auth-btn">
+          Download Front
         </button>
-        <button onClick={download} className="auth-btn">
-          Download
+        <button onClick={() => download("back")} className="auth-btn">
+          Download Back
         </button>
       </div>
     </div>
