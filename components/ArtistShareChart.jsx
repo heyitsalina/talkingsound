@@ -1,30 +1,43 @@
 import React from "react";
 
 export default function ArtistShareChart({ tracks = [], artists = [] }) {
-  const counts = {};
-  tracks.forEach((t) => {
-    (t.artists || []).forEach((a) => {
-      counts[a] = (counts[a] || 0) + 1;
-    });
-  });
-  const total = Object.values(counts).reduce((sum, v) => sum + v, 0);
-  const entries = Object.entries(counts)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 5);
   const colors = ["#ff6b6b", "#ffd93d", "#6bcb77", "#4d96ff", "#bc6ff1"];
+
+  const sanitizedArtists = artists.map((a) => ({ ...a, weight: +a.weight || 0 }));
+  let data = sanitizedArtists.filter((a) => a.weight > 0);
+
+  if (data.length === 0) {
+    const counts = {};
+    tracks.forEach((t) => {
+      (t.artists || []).forEach((name) => {
+        counts[name] = (counts[name] || 0) + 1;
+      });
+    });
+    data = Object.entries(counts).map(([name, weight]) => ({ name, weight: +weight || 0 }));
+  }
+
+  data = data.sort((a, b) => b.weight - a.weight).slice(0, 5);
+  const total = data.reduce((sum, a) => sum + a.weight, 0);
+
   let currentAngle = 0;
-  const segments = entries.map(([name, count], idx) => {
-    const share = count / total;
+  const segments = data.map((artist, idx) => {
+    const share = total ? artist.weight / total : 0;
     const startAngle = currentAngle;
     const endAngle = startAngle + share * 360;
     currentAngle = endAngle;
-    return { name, share, color: colors[idx % colors.length], startAngle, endAngle };
+    return {
+      data: artist,
+      color: colors[idx % colors.length],
+      startAngle,
+      endAngle,
+    };
   });
+
   const gradient = segments
     .map((s) => `${s.color} ${s.startAngle}deg ${s.endAngle}deg`)
     .join(", ");
 
-  const artistMap = artists.reduce((map, a) => {
+  const artistMap = sanitizedArtists.reduce((map, a) => {
     map[a.name] = a;
     return map;
   }, {});
@@ -58,11 +71,11 @@ export default function ArtistShareChart({ tracks = [], artists = [] }) {
         }}
       />
       <ul style={{ listStyle: "none", padding: 0, margin: "8px 0 0" }}>
-        {segments.map((s) => {
-          const genres = artistMap[s.name]?.genres?.join(", ");
+        {segments.map((d) => {
+          const genres = artistMap[d.data.name]?.genres?.join(", ");
           return (
             <li
-              key={s.name}
+              key={d.data.name}
               style={{
                 fontSize: 12,
                 marginBottom: 4,
@@ -75,14 +88,14 @@ export default function ArtistShareChart({ tracks = [], artists = [] }) {
                 style={{
                   width: 12,
                   height: 12,
-                  backgroundColor: s.color,
+                  backgroundColor: d.color,
                   borderRadius: "50%",
                   display: "inline-block",
                   marginRight: 4,
                 }}
               />
-              {s.name}
-              {genres ? ` (${genres})` : ""} ({Math.round(s.share * 100)}%)
+              {d.data.name}
+              {genres ? ` (${genres})` : ""} ({Math.round((d.data.weight / total) * 100)}%)
             </li>
           );
         })}
