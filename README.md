@@ -10,7 +10,12 @@ Steps:
 
 2. Copy at least one back PNG into `public/cards/backs/back.png` (or per-personality: `the-ace-back.png`, ...)
 
-3. Create `.env.local` from `.env.example` and add your `SPOTIFY_CLIENT_SECRET`.
+3. Create a `.env.local` file with your Spotify credentials:
+   ```
+   NEXT_PUBLIC_SPOTIFY_CLIENT_ID=<your-client-id>
+   SPOTIFY_CLIENT_ID=<your-client-id>
+   SPOTIFY_CLIENT_SECRET=<your-client-secret>
+   ```
 
 4. Install & run:
    ```
